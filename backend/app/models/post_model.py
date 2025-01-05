@@ -1,5 +1,5 @@
 from sqlmodel import Field, SQLModel, Relationship
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
     from .user_model import User
@@ -11,6 +11,7 @@ class PostBase(SQLModel):
 
 class Post(PostBase, table=True):
     id: int = Field(default=None, primary_key=True)
+    images: Union[str, bytes]
     user_id: int = Field(foreign_key="user.id")
     user: Optional[User] = Relationship(back_populates="posts")
     comments: Optional["Comment"] = Relationship(back_populates="post")
